@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents, Polyline, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap, Polyline, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -35,6 +35,19 @@ interface GuessMapProps {
   disabled?: boolean;
   expanded?: boolean;
   className?: string;
+}
+
+function MapResizeHandler() {
+  const map = useMap();
+  useEffect(() => {
+    const container = map.getContainer();
+    const observer = new ResizeObserver(() => {
+      map.invalidateSize();
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [map]);
+  return null;
 }
 
 function MapClickHandler({
@@ -91,6 +104,7 @@ export default function GuessMap({
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         />
+        <MapResizeHandler />
         <MapClickHandler onLocationSelect={onLocationSelect} disabled={disabled} />
 
         {selectedLocation && (
