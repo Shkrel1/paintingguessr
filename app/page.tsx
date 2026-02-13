@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 
@@ -139,6 +140,17 @@ export default function Home() {
           </span>
         </motion.div>
       </motion.div>
+
+      {/* Footer links */}
+      <div className="absolute bottom-3 left-0 right-0 z-10 flex justify-center gap-4 text-[10px] text-[#f5f0e8]/25">
+        <Link href="/terms" className="hover:text-[#f5f0e8]/50 transition-colors">
+          Terms of Use
+        </Link>
+        <span>·</span>
+        <Link href="/privacy" className="hover:text-[#f5f0e8]/50 transition-colors">
+          Privacy Policy
+        </Link>
+      </div>
 
       {/* Decorative frame corners */}
       <div className="absolute top-6 left-6 w-12 h-12 border-t border-l border-[#c9a84c]/15" />
