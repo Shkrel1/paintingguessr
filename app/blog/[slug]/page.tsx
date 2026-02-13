@@ -727,25 +727,27 @@ export function generateStaticParams() {
   return Object.keys(posts).map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const post = posts[params.slug];
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = posts[slug];
   if (!post) return {};
 
   return {
     title: `${post.title} – PaintingGuessr Blog`,
     description: post.description,
-    alternates: { canonical: `/blog/${params.slug}` },
+    alternates: { canonical: `/blog/${slug}` },
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = posts[params.slug];
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = posts[slug];
   if (!post) notFound();
 
   const breadcrumbItems = [
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },
-    { name: post.title, url: `/blog/${params.slug}` },
+    { name: post.title, url: `/blog/${slug}` },
   ];
 
   const articleJsonLd = {
