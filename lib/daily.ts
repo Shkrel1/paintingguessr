@@ -14,7 +14,7 @@ function formatDateStr(date: Date): string {
 }
 
 export function getDailySeed(date: Date): number {
-  const dateStr = formatDateStr(getESTDate(date));
+  const dateStr = formatDateStr(getESTDate(date)) + '_v2';
   let hash = 0;
   for (let i = 0; i < dateStr.length; i++) {
     hash = (hash << 5) - hash + dateStr.charCodeAt(i);

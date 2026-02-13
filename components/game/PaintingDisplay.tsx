@@ -8,7 +8,6 @@ interface PaintingDisplayProps {
   imageUrl: string;
   title: string;
   artist?: string;
-  showHint?: boolean;
   nationality?: string;
   blurred?: boolean;
   onLightboxChange?: (open: boolean) => void;
@@ -17,8 +16,6 @@ interface PaintingDisplayProps {
 export default function PaintingDisplay({
   imageUrl,
   title,
-  showHint,
-  nationality,
   blurred,
   onLightboxChange,
 }: PaintingDisplayProps) {
@@ -91,7 +88,7 @@ export default function PaintingDisplay({
               alt={title}
               width={800}
               height={600}
-              className={`object-contain max-h-[65vh] w-auto transition-all duration-500 ${blurred ? 'blur-lg' : ''} ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              className={`object-contain max-h-[65vh] w-auto transition-all duration-500 ${blurred ? 'blur-md' : ''} ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
               onError={handleImageError}
               onLoad={() => setImageLoaded(true)}
               unoptimized
@@ -111,17 +108,17 @@ export default function PaintingDisplay({
           </div>
         </motion.div>
 
-        {/* Hint badge */}
+        {/* Title badge (shown when painting is blurred in hard mode) */}
         <AnimatePresence>
-          {showHint && nationality && (
+          {blurred && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ delay: 0.5 }}
-              className="mt-5 px-5 py-2 bg-[#c9a84c]/10 border border-[#c9a84c]/30 rounded-full text-[#c9a84c] text-xs font-medium tracking-wide"
+              className="mt-5 px-5 py-2 bg-[#c9a84c]/10 border border-[#c9a84c]/30 rounded-full text-[#c9a84c] text-sm font-serif font-medium italic"
             >
-              Hint: {nationality} artist
+              {title}
             </motion.div>
           )}
         </AnimatePresence>
@@ -162,7 +159,7 @@ export default function PaintingDisplay({
                 alt={title}
                 width={1600}
                 height={1200}
-                className={`max-w-full max-h-[90vh] object-contain ${blurred ? 'blur-lg' : ''}`}
+                className={`max-w-full max-h-[90vh] object-contain ${blurred ? 'blur-md' : ''}`}
                 unoptimized
               />
             </motion.div>

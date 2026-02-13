@@ -8,11 +8,13 @@ import { getTodayDateString, getTimeUntilNextDaily } from '@/lib/daily';
 import GameBoard from '@/components/game/GameBoard';
 import GalleryLoader from '@/components/ui/GalleryLoader';
 import Button from '@/components/ui/Button';
+import ShareCard from '@/components/ui/ShareCard';
+import { RoundResult } from '@/types';
 
 interface DailyResult {
   completed: boolean;
   score: number;
-  rounds: [];
+  rounds: RoundResult[];
 }
 
 export default function DailyChallenge() {
@@ -148,7 +150,7 @@ export default function DailyChallenge() {
             </span>{' '}
             / 50,000 today
           </p>
-          <p className="text-[#f5f0e8]/35 text-sm mb-8">
+          <p className="text-[#f5f0e8]/35 text-sm mb-6">
             Next daily challenge in{' '}
             <span className="font-mono text-[#c9a84c]/80 tabular-nums">
               {String(countdown.hours).padStart(2, '0')}:
@@ -156,6 +158,22 @@ export default function DailyChallenge() {
               {String(countdown.seconds).padStart(2, '0')}
             </span>
           </p>
+
+          {previousResult?.rounds && previousResult.rounds.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="mb-6 w-full text-left"
+            >
+              <ShareCard
+                rounds={previousResult.rounds}
+                totalScore={previousResult.score}
+                mode="daily"
+                date={todayStr}
+              />
+            </motion.div>
+          )}
 
           <motion.div
             initial={{ opacity: 0, y: 8 }}

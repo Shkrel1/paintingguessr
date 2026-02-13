@@ -76,18 +76,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ currentGuess: { ...get().currentGuess, year } }),
 
   submitGuess: () => {
-    const { currentGuess, paintings, currentRound } = get();
-    if (!currentGuess.location || currentGuess.year === null) return null;
+    const { currentGuess, settings, paintings, currentRound } = get();
+    const isEasy = settings.difficulty === 'easy';
+
+    if (!isEasy && !currentGuess.location) return null;
+    if (currentGuess.year === null) return null;
 
     const painting = paintings[currentRound];
-    const distanceKm = haversineDistance(
-      currentGuess.location.lat,
-      currentGuess.location.lng,
-      painting.location.lat,
-      painting.location.lng
-    );
+    const distanceKm = currentGuess.location
+      ? haversineDistance(
+          currentGuess.location.lat,
+          currentGuess.location.lng,
+          painting.location.lat,
+          painting.location.lng
+        )
+      : 0;
     const yearDifference = calculateYearDifference(currentGuess.year, painting.year, painting.yearStart, painting.yearEnd);
-    const locationScore = calculateLocationScore(distanceKm);
+    const locationScore = currentGuess.location ? calculateLocationScore(distanceKm) : 0;
     const yearScore = calculateYearScore(currentGuess.year, painting.year, painting.yearStart, painting.yearEnd);
 
     const result: RoundResult = {

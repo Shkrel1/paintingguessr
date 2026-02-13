@@ -15,6 +15,7 @@ interface FinalResultsProps {
   mode: 'standard' | 'daily';
   date?: string;
   onPlayAgain: () => void;
+  difficulty?: 'easy' | 'normal' | 'hard';
 }
 
 const scoreColor = (score: number) =>
@@ -26,7 +27,9 @@ export default function FinalResults({
   mode,
   date,
   onPlayAgain,
+  difficulty = 'normal',
 }: FinalResultsProps) {
+  const isEasy = difficulty === 'easy';
   const rating = getRating(totalScore);
   const confettiFired = useRef(false);
 
@@ -77,7 +80,7 @@ export default function FinalResults({
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f1a] text-[#f5f0e8] p-4 lg:p-8">
+    <div className="h-screen overflow-y-auto bg-[#0f0f1a] text-[#f5f0e8] p-4 pb-12 lg:p-8 lg:pb-12">
       <div className="max-w-4xl mx-auto">
         {/* Title + rating */}
         <motion.div
@@ -113,7 +116,7 @@ export default function FinalResults({
           >
             <ScoreCounter target={totalScore} duration={2000} />
             <span className="text-lg text-[#f5f0e8]/30 self-end mb-1">
-              / 50,000
+              / {isEasy ? '25,000' : '50,000'}
             </span>
           </motion.div>
         </motion.div>
@@ -125,10 +128,10 @@ export default function FinalResults({
           transition={{ delay: 0.8, duration: 0.5 }}
           className="bg-[#16213e]/80 backdrop-blur-sm rounded-xl border border-[#2a2a4e] overflow-hidden mb-8"
         >
-          <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-x-4 text-[10px] text-[#f5f0e8]/40 uppercase tracking-[0.15em] px-4 py-3 border-b border-[#2a2a4e]">
+          <div className={`grid ${isEasy ? 'grid-cols-[auto_1fr_auto_auto]' : 'grid-cols-[auto_1fr_auto_auto_auto]'} gap-x-4 text-[10px] text-[#f5f0e8]/40 uppercase tracking-[0.15em] px-4 py-3 border-b border-[#2a2a4e]`}>
             <span>#</span>
             <span>Painting</span>
-            <span className="text-right">Location</span>
+            {!isEasy && <span className="text-right">Location</span>}
             <span className="text-right">Year</span>
             <span className="text-right">Total</span>
           </div>
@@ -142,7 +145,7 @@ export default function FinalResults({
               <motion.div
                 key={i}
                 variants={rowVariants}
-                className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-x-4 items-center px-4 py-3 border-b border-[#2a2a4e]/40 last:border-0 hover:bg-white/[0.03] transition-colors"
+                className={`grid ${isEasy ? 'grid-cols-[auto_1fr_auto_auto]' : 'grid-cols-[auto_1fr_auto_auto_auto]'} gap-x-4 items-center px-4 py-3 border-b border-[#2a2a4e]/40 last:border-0 hover:bg-white/[0.03] transition-colors`}
               >
                 <span className="text-[#f5f0e8]/30 text-sm w-6 font-mono">{i + 1}</span>
                 <div className="min-w-0">
@@ -153,16 +156,22 @@ export default function FinalResults({
                     {round.painting.artist} &middot; {round.painting.yearDisplay}
                   </p>
                   <div className="flex gap-1 text-[10px] text-[#f5f0e8]/25 mt-0.5">
-                    <span>{formatDistance(round.distanceKm)} off</span>
-                    <span>&middot;</span>
+                    {!isEasy && (
+                      <>
+                        <span>{formatDistance(round.distanceKm)} off</span>
+                        <span>&middot;</span>
+                      </>
+                    )}
                     <span>{round.yearDifference} yr off</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className={`text-sm font-mono font-medium ${scoreColor(round.locationScore)}`}>
-                    {round.locationScore.toLocaleString()}
-                  </span>
-                </div>
+                {!isEasy && (
+                  <div className="text-right">
+                    <span className={`text-sm font-mono font-medium ${scoreColor(round.locationScore)}`}>
+                      {round.locationScore.toLocaleString()}
+                    </span>
+                  </div>
+                )}
                 <div className="text-right">
                   <span className={`text-sm font-mono font-medium ${scoreColor(round.yearScore)}`}>
                     {round.yearScore.toLocaleString()}

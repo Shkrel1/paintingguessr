@@ -69,7 +69,7 @@ export default function Home() {
         className="relative z-10 text-center px-6 w-full"
       >
         {/* Title */}
-        <h1 className="text-6xl lg:text-9xl font-serif font-bold mb-2 tracking-tight">
+        <h1 className="font-serif font-bold mb-2 tracking-tight text-[clamp(2rem,11vw,8rem)] whitespace-nowrap">
           <span className="text-[#f5f0e8]">Painting</span>
           <span className="text-[#c9a84c]">Guessr</span>
         </h1>

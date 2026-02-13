@@ -26,9 +26,9 @@ export default function PlaySettings() {
   ];
 
   const difficultyOptions: { value: GameSettings['difficulty']; label: string; desc: string; icon: string }[] = [
-    { value: 'easy', label: 'Easy', desc: 'Artist nationality shown as a hint', icon: '🌿' },
+    { value: 'easy', label: 'Easy', desc: 'Year only — no location guessing', icon: '🌿' },
     { value: 'normal', label: 'Normal', desc: 'No hints — pure knowledge and instinct', icon: '🎯' },
-    { value: 'hard', label: 'Hard', desc: 'Painting starts blurred until final seconds', icon: '🔥' },
+    { value: 'hard', label: 'Hard', desc: 'Painting is blurred — only the title is revealed', icon: '🔥' },
   ];
 
   const handleStart = async () => {

@@ -34,6 +34,7 @@ interface GuessMapProps {
   showResult?: boolean;
   disabled?: boolean;
   expanded?: boolean;
+  className?: string;
 }
 
 function MapClickHandler({
@@ -60,6 +61,7 @@ export default function GuessMap({
   showResult,
   disabled,
   expanded,
+  className,
 }: GuessMapProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -69,14 +71,14 @@ export default function GuessMap({
 
   if (!mounted) {
     return (
-      <div className={`bg-[#16213e] rounded-lg flex items-center justify-center ${expanded ? 'h-[60vh]' : 'h-[250px] lg:h-[300px]'}`}>
+      <div className={`bg-[#16213e] rounded-lg flex items-center justify-center ${className ?? (expanded ? 'h-[60vh]' : 'h-[250px] lg:h-[300px]')}`}>
         <span className="text-[#f5f0e8]/40">Loading map...</span>
       </div>
     );
   }
 
   return (
-    <div className={`relative rounded-lg overflow-hidden border border-[#2a2a4e] ${expanded ? 'h-[60vh]' : 'h-[250px] lg:h-[300px]'}`}>
+    <div className={`relative rounded-lg overflow-hidden border border-[#2a2a4e] ${className ?? (expanded ? 'h-[60vh]' : 'h-[250px] lg:h-[300px]')}`}>
       <MapContainer
         center={[30, 10]}
         zoom={2}
@@ -86,7 +88,7 @@ export default function GuessMap({
         attributionControl={false}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?language=en"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         />
         <MapClickHandler onLocationSelect={onLocationSelect} disabled={disabled} />
