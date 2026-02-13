@@ -102,19 +102,19 @@ export default function Home() {
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Button
-            onClick={() => router.push('/play')}
+            onClick={() => router.push('/daily')}
             size="lg"
-            className="min-w-[200px] text-base"
+            className="min-w-[200px] text-base bg-gradient-to-r from-[#e08a2c] to-[#c96f1a] hover:from-[#eb9535] hover:to-[#d47a22] shadow-[#e08a2c]/10 focus:ring-[#e08a2c]"
           >
-            Play
+            Daily Challenge
           </Button>
           <Button
-            onClick={() => router.push('/daily')}
+            onClick={() => router.push('/play')}
             variant="secondary"
             size="lg"
             className="min-w-[200px] text-base"
           >
-            Daily Challenge
+            Endless Mode
           </Button>
         </motion.div>
 
