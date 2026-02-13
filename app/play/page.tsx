@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/lib/store';
 import { generateSessionId } from '@/lib/utils';
@@ -65,16 +66,15 @@ export default function PlaySettings() {
         className="w-full max-w-md relative z-10"
       >
         {/* Back */}
-        <motion.button
-          whileHover={{ x: -3 }}
-          onClick={() => router.push('/')}
+        <Link
+          href="/"
           className="text-[#f5f0e8]/40 hover:text-[#f5f0e8]/70 text-sm mb-10 transition-colors flex items-center gap-1.5"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-60">
             <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           Back
-        </motion.button>
+        </Link>
 
         <h1 className="text-3xl font-serif font-bold mb-10">Game Settings</h1>
 
